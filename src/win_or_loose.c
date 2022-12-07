@@ -24,21 +24,24 @@ void win_condition(sokoban_t *sokoban, int y, int x)
 
 void loose_map(sokoban_t *sokoban, int y, int x)
 {
-    sokoban->loose = 0;
-    if (sokoban->game[y][x] == 'X' && sokoban->game[y][x + 1] == '#'
-    && sokoban->game[y - 1][x] == '#') {
+    if (sokoban->game[y][x] == 'X' && (sokoban->game[y][x + 1] == '#' ||
+    sokoban->game[y][x + 1] == 'X')
+    && (sokoban->game[y - 1][x] == '#' || sokoban->game[y][x + 1] == 'X')) {
         sokoban->check_loose[y][x] = '1';
     }
-    if (sokoban->game[y][x] == 'X' && sokoban->game[y][x + 1] == '#'
-    && sokoban->game[y + 1][x] == '#') {
+    if (sokoban->game[y][x] == 'X' && (sokoban->game[y][x + 1] == '#' ||
+    sokoban->game[y][x + 1] == 'X')
+    && (sokoban->game[y + 1][x] == '#' || sokoban->game[y + 1][x] == 'X')) {
         sokoban->check_loose[y][x] = '1';
     }
-    if (sokoban->game[y][x] == 'X' && sokoban->game[y][x - 1] == '#'
-    && sokoban->game[y - 1][x] == '#') {
+    if (sokoban->game[y][x] == 'X' && (sokoban->game[y][x - 1] == '#' ||
+    sokoban->game[y][x - 1] == 'X')
+    && (sokoban->game[y - 1][x] == '#' || sokoban->game[y - 1][x] == 'X')) {
         sokoban->check_loose[y][x] = '1';
     }
-    if (sokoban->game[y][x] == 'X' && sokoban->game[y][x - 1] == '#'
-    && sokoban->game[y + 1][x] == '#') {
+    if (sokoban->game[y][x] == 'X' && (sokoban->game[y][x - 1] == '#' ||
+    sokoban->game[y][x - 1] == 'X')
+    && (sokoban->game[y + 1][x] == '#' || sokoban->game[y + 1][x] == 'X')) {
         sokoban->check_loose[y][x] = '1';
     }
 }
@@ -51,7 +54,7 @@ void loose_condition(sokoban_t *sokoban, int y, int x)
 
 int condition(sokoban_t *sokoban)
 {
-    sokoban->win = 0;
+    sokoban->win = 0; sokoban->loose = 0;
     for (int y = 0; sokoban->reset[y] != NULL; y++) {
         for (int x = 0; sokoban->reset[y][x] != '\0'; x++)
             win_condition(sokoban, y, x);
