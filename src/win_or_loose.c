@@ -19,7 +19,6 @@ void win_condition(sokoban_t *sokoban, int y, int x)
 {
     if (sokoban->reset[y][x] == 'O' && sokoban->game[y][x] == 'X') {
         sokoban->win = sokoban->win + 1;
-        printf("%d", sokoban->win);
     }
 }
 
