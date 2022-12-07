@@ -69,19 +69,19 @@ int fill_sokoban(char *filepath, sokoban_t *sokoban)
 
 int my_open(sokoban_t *sokoban)
 {
-    int x = 0; int y = 0; sokoban->ch = 0;
-    larger_length(sokoban); back_nb(sokoban); initscr(); keypad(stdscr, true);
-    curs_set(0);
+    int x = 0; int y = 0; sokoban->ch = 0; larger_length(sokoban);
+    back_nb(sokoban); initscr(); keypad(stdscr, true); curs_set(0);
     while (true) {
         clear(); search_p(sokoban); getmaxyx(stdscr, y, x);
         for (int i = 0; sokoban->game[i] != NULL; i++) {
         mvprintw(y / 2 - sokoban->count / 2 + i,
                 x / 2 - sokoban->l / 2, "%s\n", sokoban->game[i]);
         }
-        sokoban->ch = getch(); manage_input(sokoban);
-        refresh();
-        if (sokoban->ch == 27)
-            break;
+        if (y < sokoban->count || x < sokoban->l) { clear();
+        printw("Window too little, resize to play.");
+        }
+        sokoban->ch = getch(); manage_input(sokoban); refresh();
+        if (sokoban->ch == 27) break;
         if (condition(sokoban) == 2) { endwin(); return (0);
         }
         if (condition(sokoban) == 1) { endwin(); return (1);
@@ -91,11 +91,13 @@ int my_open(sokoban_t *sokoban)
     return (0);
 }
 
-int main(int argc, char **argv)
+int main(int argc, char **argv, char **env)
 {
     sokoban_t sokoban;
     char *filepath = argv[1];
 
+    if (!env[0] || !env)
+        return (84);
     if (argc == 2 && argv[1][0] == '-'
         && argv[1][1] == 'h' && argv[1][2] == '\0') {
         description();
