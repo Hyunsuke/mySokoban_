@@ -73,19 +73,19 @@ int my_open(sokoban_t *sokoban)
     larger_length(sokoban); back_nb(sokoban); initscr(); keypad(stdscr, true);
     curs_set(0);
     while (true) {
-        clear();
-        search_p(sokoban); getmaxyx(stdscr, y, x);
+        clear(); search_p(sokoban); getmaxyx(stdscr, y, x);
         for (int i = 0; sokoban->game[i] != NULL; i++) {
         mvprintw(y / 2 - sokoban->count / 2 + i,
                 x / 2 - sokoban->l / 2, "%s\n", sokoban->game[i]);
         }
-        sokoban->ch = getch();
-        manage_input(sokoban);
+        sokoban->ch = getch(); manage_input(sokoban);
         refresh();
         if (sokoban->ch == 27)
             break;
-        if (condition(sokoban) == 2) return (0);
-        if (condition(sokoban) == 1) return (1);
+        if (condition(sokoban) == 2) { endwin(); return (0);
+        }
+        if (condition(sokoban) == 1) { endwin(); return (1);
+        }
     }
     endwin();
     return (0);
