@@ -87,7 +87,7 @@ int my_open(sokoban_t *sokoban)
         sokoban->ch = getch(); manage_input(sokoban); refresh();
         if (sokoban->ch == 27) break;
     }
-    endwin();
+    refresh(); endwin();
     return (0);
 }
 
