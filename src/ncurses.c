@@ -80,9 +80,9 @@ int my_open(sokoban_t *sokoban)
         if (y < sokoban->count || x < sokoban->l) { clear();
         printw("Window too little, resize to play.");
         }
-        if (condition(sokoban) == 2) { endwin(); return (0);
+        if (condition(sokoban) == 2) { refresh(); endwin(); return (0);
         }
-        if (condition(sokoban) == 1) { endwin(); return (1);
+        if (condition(sokoban) == 1) { refresh(); endwin(); return (1);
         }
         sokoban->ch = getch(); manage_input(sokoban); refresh();
         if (sokoban->ch == 27) break;
